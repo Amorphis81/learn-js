@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        // начать повторы с интервалом 2 сек
+        var timerId = setTimeout(function tick() {
+            alert( "тик" );
+            timerId = setTimeout(tick, 2000);
+        }, 5000);
+
+        // через 5 сек остановить повторы
+        setTimeout(function() {
+            clearInterval(timerId);
+            alert( 'стоп' );
+        }, 10000);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

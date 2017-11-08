@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function delay(func, timer) {
+            return function (message) {
+                var savedThis = this;
+                var savedArgs = arguments;
+                setTimeout(function () {
+                    func.apply(savedThis, savedArgs);
+                }, timer);
+                //return result;
+            }
+        }
+
+        function f(x) {
+            console.log( x );
+        }
+
+        var f1000 = delay(f, 1000);
+        var f1500 = delay(f, 15000);
+
+        f1000("тест"); // выведет "тест" через 1000 миллисекунд
+        f1500("тест2"); // выведет "тест2" через 1500 миллисекунд
+    </script>
+</head>
+<body>
+
+</body>
+</html>

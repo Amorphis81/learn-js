@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        var user = {
+            firstName: "Вася",
+            sayHi: function(who) {
+                alert( this.firstName + ': Привет, ' + who);
+            }
+        };
+
+        function bind(func, context) {
+            return function() { // (*)
+                return func.apply(context, arguments);
+            };
+        }
+
+        var sayHi = bind(user.sayHi, user);
+
+        // контекст Вася, а аргумент передаётся "как есть"
+        sayHi("Петя"); // Вася: Привет, Петя
+        sayHi("Маша"); // Вася: Привет, Маша
+    </script>
+</head>
+<body>
+
+</body>
+</html>

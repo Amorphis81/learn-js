@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Super Calc</title>
+    <script>
+        function Calculator() {
+            this.calculate = function (str) {
+                str = str.split(' ');
+                if (str[1] == '+'){
+                    return Number(str[0])+Number(str[2]);
+                } else if (str[1] == '-'){
+                    return Number(str[0])-Number(str[2]);
+                } else if (str[1] == '*'){
+                    return str[0]*str[2];
+                } else if (str[1] == '/'){
+                    return str[0]/str[2];
+                }
+            }
+
+        }
+        var calc = new Calculator;
+
+        alert( calc.calculate("3 * 7") ); // 10
+    </script>
+</head>
+<body>
+
+</body>
+</html>

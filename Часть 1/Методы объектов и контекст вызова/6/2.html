@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script>
+        function applyAll(func, arg1, arg2, arg3) {
+            var args = [].slice.call(arguments);
+            return args[0](args[1], args[2], args[3]);
+        }
+
+        // Применить Math.max к аргументам 2, -2, 3
+        console.log( applyAll(Math.max, 2, -2, 3) ); // 3
+
+        // Применить Math.min к аргументам 2, -2, 3
+        console.log( applyAll(Math.min, 2, -2, 3) ); // -2
+    </script>
+</head>
+<body>
+
+</body>
+</html>

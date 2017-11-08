@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Логирующий декоратор (1 аргумент)</title>
+    <script>
+        function work(a) {
+            //log.push(a);
+            /* ... */ // work - произвольная функция, один аргумент
+        }
+
+        function makeLogging(f, log) {
+            return function(a) {
+                log.push(a);
+                return f.apply(this, arguments);
+            }
+            /* ваш код */
+        }
+
+        var log = [];
+        work = makeLogging(work, log);
+
+        work(1); // 1, добавлено в log
+        work(5); // 5, добавлено в log
+
+        for (var i = 0; i < log.length; i++) {
+            console.log( 'Лог:' + log[i] ); // "Лог:1", затем "Лог:5"
+        }
+    </script>
+</head>
+<body>
+
+</body>
+</html>
