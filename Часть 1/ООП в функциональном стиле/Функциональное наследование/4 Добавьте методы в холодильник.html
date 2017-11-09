@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>
+        function Machine(power) {
+            this._power = power;
+            this._enabled = false;
+
+            var self = this;
+
+            this.enable = function () {
+                self._enabled = true;
+            };
+
+            this.disable = function () {
+                self._enabled = false;
+            };
+        }
+
+        function Fridge(power) {
+            Machine.apply(this, arguments);
+            var foodInFridge = [];
+
+            var parentEnable = this.enable;
+            this.enable = function () {
+                parentEnable(); // теперь можно вызывать как угодно, this не важен				
+            };
+
+            this.addFood = function () {
+                var totalFood = 0;
+                var foodAtOnce = 0;
+                var args = [];
+                if (this._enabled) {
+                    for (var i = 0; i < arguments.length; i++) {
+                        foodAtOnce += 100;
+                        args.push(arguments[i]);
+                    }
+                    totalFood += foodAtOnce;
+                    if ((foodAtOnce + totalFood) <= power) {
+                        args.forEach(function (item) {
+                            foodInFridge.push(item);
+                        });
+                        //console.log(args + ' добавлены в холодильник');
+                    } else {
+                        console.log('слишком много аргументов! ' + args + ' не влезли');
+                    }
+
+                } else console.log('ошибка, холодильник выключен');
+            }
+
+            this.getFood = function () {
+                //return [];
+                //return 'Сейчас в холодильнике: ' + foodInFridge.join(', ');
+                return foodInFridge.slice();
+            }
+
+            this.filterFood = function (func) {
+                /*
+                for (var i = 0; i < foodInFridge.length; i++){
+                    func(foodInFridge[i]);
+                }
+                */
+                foodInFridge.forEach(function(item, i){
+                    func(foodInFridge[i]);
+                });
+            }
+        }
+
+        var fridge = new Fridge(500);
+        fridge.enable();
+        fridge.addFood({
+            title: "котлета",
+            calories: 100
+        });
+        fridge.addFood({
+            title: "сок",
+            calories: 30
+        });
+        fridge.addFood({
+            title: "зелень",
+            calories: 10
+        });
+        fridge.addFood({
+            title: "варенье",
+            calories: 150
+        });
+
+
+        //fridge.removeFood("нет такой еды"); // без эффекта
+        //alert(fridge.getFood().length); // 4
+
+        var dietItems = fridge.filterFood(function (item) {
+            return item.calories < 50;
+            //console.log(item.calories < 50);
+        });
+/*
+        dietItems.forEach(function (item) {
+            console.log(item.title); // сок, зелень
+            //fridge.removeFood(item);
+        });
+
+        alert(fridge.getFood().length); // 2
+*/
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Холодильник</title>
+    <script>
+        function Machine(power) {
+            this._power = power;
+            this._enabled = false;
+
+            var self = this;
+
+            this.enable = function () {
+                self._enabled = true;
+            };
+
+            this.disable = function () {
+                self._enabled = false;
+            };
+        }
+
+        function Fridge(power) {
+            Machine.apply(this, arguments);
+            var foodInFridge = [];
+
+            var parentEnable = this.enable;
+            this.enable = function () {
+                parentEnable(); // теперь можно вызывать как угодно, this не важен				
+            };
+
+            this.addFood = function () {
+                var totalFood = 0;
+                var foodAtOnce = 0;
+                var args = [];
+                if (this._enabled) {
+                    for (var i = 0; i < arguments.length; i++) {
+                        foodAtOnce += 100;
+                        args.push(arguments[i]);                        
+                    }
+                    totalFood += foodAtOnce;
+                    if ((foodAtOnce + totalFood) <= power){
+                        args.forEach(function(item, i, arfs){
+                            foodInFridge.push(item);
+                        });
+                        console.log (args + ' добавлены в холодильник');
+                    } else {
+                        console.log('слишком много аргументов! ' + args + ' не влезли');
+                    }
+
+                } else console.log('ошибка, холодильник выключен');
+            }
+            
+            this.getFood = function () {
+                //return [];
+                return 'Сейчас в холодильнике: ' + foodInFridge.join(', ');
+            }
+        }
+
+        /*
+                //Код для проверки
+                var fridge = new Fridge(200);
+                //fridge.enable();
+                fridge.addFood("котлета"); // ошибка, холодильник выключен
+        */
+        //Ещё код для проверки:
+        // создать холодильник мощностью 500 (не более 5 еды)
+        /*
+        var fridge = new Fridge(500);
+        fridge.enable();
+        fridge.addFood("котлета");
+        fridge.addFood("сок", "зелень");
+        fridge.addFood("варенье", "пирог", "торт"); // ошибка, слишком много еды
+
+*/
+        //Код использования холодильника без ошибок:
+        var fridge = new Fridge(500);
+        fridge.enable();
+        fridge.addFood("котлета");
+        fridge.addFood("сок", "варенье");
+
+        var fridgeFood = fridge.getFood();
+        console.log(fridgeFood); // котлета, сок, варенье
+
+        // добавление элементов не влияет на еду в холодильнике
+        try {
+            fridgeFood.push("вилка", "ложка");
+        } catch (e) {
+            console.log ('Ошибка: ' + e.message);
+        }
+
+        console.log(fridge.getFood()); // внутри по-прежнему: котлета, сок, варенье
+
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
