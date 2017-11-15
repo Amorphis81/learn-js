@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script>        
+        Function.prototype.defer = function (ms) { //здесь начинаем создавать прототип defer всем функциям
+              var f = this;                            //присваиваем this, который равен функции f
+              return function () {                    //пошла функция для отработки (1, 2)
+                var args = arguments,                  //копируем в массив аргументы, чтобы позже применить в apply
+                  context = this;                      //смысл понятен, но зачем - не ясно
+                setTimeout(function () {              //вот тут пошли непонятки. да, я знаю, что это "форвардинг вызова". по идее, нужно передать первой функцию
+                  f.apply(context, args);              //но тут тут получается функция в функции. причем, если f.apply из функции вытащить,
+                }, ms);                                //то она тоже срабатывает, но без задержки.
+              }
+            }
+        
+            // проверка
+            function f(a, b) {
+              alert(a + b);
+            }
+        
+            f.defer(1000)(1, 2); // выведет 3 через 1 секунду.
+    </script>
+</head>
+
+<body>
+
+</body>
+
+</html>
